@@ -53,7 +53,7 @@ export class APIManager {
         this.listId = responseListJson.id
         return this.listId
     }
-    async getListId() {
+    async getListId(listNumber) {
         const getListResponse = await this.request.get("https://trello.com/1/boards/${this.board.id}/lists", {
             data: {
                 key: this.key,
@@ -62,23 +62,22 @@ export class APIManager {
         })
         expect(await getListResponse.status()).toBe(200)
         const getListResponseJson = await getListResponse.json()
-        this.ListId = getListResponseJson[listNumber].id
-        return this.ListId
+        this.listId = getListResponseJson[listNumber].id
+        return this.listId
     }
     async createCard(cardName) {
         const responseCard = await this.request.post("https://trello.com/1/cards/",
         {
             data:{
                 name: cardName,
-                idList: this.ListId.id,
+                idList: this.listId.id,
                 key: this.key,
                 token: this.token
 
             }
         })
-        const responseCardJson = await responseCard.json()
-        expect (responseCardJson.status()).toBe(200)
-        expect (responseCardJson.name()).toBe(cardName)
+        expect (responseCard.status()).toBe(200)
+        expect (responseCard.name()).toBe(cardName)
     } 
     }
  module.exports = { APIManager };
