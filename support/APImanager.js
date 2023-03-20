@@ -33,7 +33,7 @@ export class APIManager {
              token: this.token
          }
         })
-        const responseDeleteBoard = await responseDelete.text()
+        const responseDeleteBoard = await responseDelete.json()
         expect (responseDeleteBoard.status()).toBe(200)
      }
     async createList(listName) {
@@ -47,10 +47,10 @@ export class APIManager {
 
             }
         })
-        const responseCreateList = await responseList.text()
-        expect (responseCreateList.status()).toBe(200)
-        expect (responseCreateList.name()).toBe('New List')
-        this.listId = createListResponseJson.id
+        const responseListJson = await responseList.json()
+        expect (responseListJson.status()).toBe(200)
+        expect (responseListJson.name()).toBe(listName)
+        this.listId = responseListJson.id
         return this.listId
     }
     async getListId() {
@@ -76,9 +76,9 @@ export class APIManager {
 
             }
         })
-        const responseCreateCard = await responseCard.text()
-        expect (responseCreateCard.status()).toBe(200)
-        expect (responseCreateCard.name()).toBe(cardName)
+        const responseCardJson = await responseCard.json()
+        expect (responseCardJson.status()).toBe(200)
+        expect (responseCardJson.name()).toBe(cardName)
     } 
     }
  module.exports = { APIManager };
