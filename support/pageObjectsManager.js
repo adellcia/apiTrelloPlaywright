@@ -17,8 +17,8 @@ export class PageObjectsManager {
         await this.userField.fill(email)
         await this.continueButton.click()
         await this.passwordField.fill(password)
-        await this.loginButton.click()
-        await this.page.waitForTimeout(5000)
+        await this.loginButton.click()        
+        
     }
 }
 module.exports = { PageObjectsManager };

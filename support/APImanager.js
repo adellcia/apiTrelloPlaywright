@@ -1,5 +1,5 @@
 const { expect, request } = require('@playwright/test')
-require('dotenv').config()
+//require('dotenv').config()
 
 
 export class APIManager {
@@ -8,7 +8,7 @@ export class APIManager {
         this.key = 'ea7393ce9f29f50b262a4b873c79392c'
         this.token = '5a3f21725364946145ed1818e8e26a0a1e629ed75c943dfbb6616ab58189bcbe'
         this.board = {}
-        this.ListId
+        this.listId
     }
     async createBoard(boardName) {
         const responseBoard = await this.request.post("https://trello.com/1/boards", {
@@ -24,9 +24,6 @@ export class APIManager {
     expect(await responseBoardJson.closed).toEqual(false)
     expect(await responseBoardJson.prefs.permissionLevel).toEqual('private')
     this.board.id = responseBoardJson.id
-    const boardLink = responseBoardJson.url
-        this.board.url = (boardLink).split('com')[1]
-        return this.board
     }
     async deleteBoard() {
         const responseDelete = await this.request.delete("https://trello.com/1/boards/${this.board.id}",
@@ -64,7 +61,7 @@ export class APIManager {
             }
         })
         expect(await getListResponse.status()).toBe(200)
-        const getListListResponseJson = await getListResponse.json()
+        const getListResponseJson = await getListResponse.json()
         this.ListId = getListResponseJson[listNumber].id
         return this.ListId
     }
@@ -81,7 +78,7 @@ export class APIManager {
         })
         const responseCreateCard = await responseCard.text()
         expect (responseCreateCard.status()).toBe(200)
-        expect (responseCreateCard.name()).toBe('New Card')
+        expect (responseCreateCard.name()).toBe(cardName)
     } 
     }
  module.exports = { APIManager };
